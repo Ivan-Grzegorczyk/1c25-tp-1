@@ -22,10 +22,7 @@
   "links": [],
   "panels": [
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "eei0vd6p2dedcd"
-      },
+      "datasource": "Graphite",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -152,10 +149,7 @@
       "pluginVersion": "11.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refCount": 0,
           "refId": "B",
           "target": "aliasByMetric(stats.gauges.$server.scenarioCounts.*)",
@@ -166,10 +160,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "eei0vd6p2dedcd"
-      },
+      "datasource": "Graphite",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -436,35 +427,23 @@
       "pluginVersion": "11.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refId": "B",
           "target": "alias(sumSeries(stats.gauges.$server.errors.*), 'Errored')",
           "textEditor": true
         },
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refId": "A",
           "target": "alias(stats.gauges.$server.codes.200, 'Completed')"
         },
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refId": "C",
           "target": "alias(stats.gauges.$server.pendingRequests, 'Pending')"
         },
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refId": "D",
           "target": "alias(stats.gauges.$server.codes.429, 'Limited')"
         }
@@ -473,10 +452,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "eei0vd6p2dedcd"
-      },
+      "datasource": "Graphite",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -604,19 +580,13 @@
       "pluginVersion": "11.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refCount": 0,
           "refId": "C",
           "target": "alias(stats.gauges.$server.scenarioDuration.max, 'Upper')"
         },
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refCount": 0,
           "refId": "B",
           "target": "alias(stats.gauges.$server.scenarioDuration.median, 'Median')"
@@ -626,10 +596,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "eei0vd6p2dedcd"
-      },
+      "datasource": "Graphite",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -787,10 +754,7 @@
       "pluginVersion": "11.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "hide": false,
           "refCount": 0,
           "refId": "C",
@@ -798,10 +762,7 @@
           "textEditor": false
         },
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "hide": false,
           "refCount": 0,
           "refId": "B",
@@ -812,10 +773,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "eei0vd6p2dedcd"
-      },
+      "datasource": "Graphite",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -894,10 +852,7 @@
       "pluginVersion": "11.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refCount": 0,
           "refId": "A",
           "target": "stats.api.requests"
@@ -907,10 +862,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "eei0vd6p2dedcd"
-      },
+      "datasource": "Graphite",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -989,10 +941,7 @@
       "pluginVersion": "11.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refCount": 0,
           "refId": "A",
           "target": "stats.arvault.exchange.volume.*"
@@ -1002,10 +951,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "eei0vd6p2dedcd"
-      },
+      "datasource": "Graphite",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1084,10 +1030,7 @@
       "pluginVersion": "11.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refCount": 0,
           "refId": "A",
           "target": "stats.arvault.exchange.neto.*"
@@ -1097,10 +1040,7 @@
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "graphite",
-        "uid": "eei0vd6p2dedcd"
-      },
+      "datasource": "Graphite",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1209,10 +1149,7 @@
       "pluginVersion": "11.5.2",
       "targets": [
         {
-          "datasource": {
-            "type": "graphite",
-            "uid": "eei0vd6p2dedcd"
-          },
+          "datasource": "Graphite",
           "refCount": 0,
           "refId": "A",
           "target": "stats.timers.api.exchange.latency.*"

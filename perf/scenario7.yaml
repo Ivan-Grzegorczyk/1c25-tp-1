@@ -1,0 +1,102 @@
+config:
+  target: "http://localhost:5555"
+  phases:
+    - duration: 60
+      arrivalRate: 5
+    - duration: 60
+      arrivalRate: 15
+    - duration: 60
+      arrivalRate: 30
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "Carga realista con errores"
+    flow:
+      - get:
+          url: "/accounts"
+      - get:
+          url: "/rates"
+
+      # Transacciones válidas
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "ARS"
+            counterCurrency: "USD"
+            baseAccountId: 1
+            counterAccountId: 2
+            baseAmount: 150
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            baseAccountId: 3
+            counterAccountId: 4
+            baseAmount: 80
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "ARS"
+            counterCurrency: "USD"
+            baseAccountId: 2
+            counterAccountId: 1
+            baseAmount: 200
+
+      # Transacciones con errores
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            baseAccountId: 1
+            counterAccountId: 9999
+            baseAmount: 50
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "ARS"
+            counterCurrency: "USD"
+            baseAccountId: 1
+            counterAccountId: 2
+            baseAmount: 50
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "ARS"
+            counterCurrency: "USD"
+            baseAmount: 50
+          # Faltan accountId
+
+      # Actualización de balances
+      - put:
+          url: "/accounts/1/balance"
+          json:
+            balance: 500000
+      - put:
+          url: "/accounts/2/balance"
+          json:
+            balance: 300000
+      - put:
+          url: "/accounts/3/balance"
+          json:
+            balance: 100000
+
+      # Actualización de tasas
+      - put:
+          url: "/rates"
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            rate: 1100
+      - put:
+          url: "/rates"
+          json:
+            baseCurrency: "EUR"
+            counterCurrency: "BRL"
+            rate: 6.8
+
+      - get:
+          url: "/log"

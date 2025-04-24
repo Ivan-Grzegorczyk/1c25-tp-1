@@ -1,0 +1,90 @@
+config:
+  http:
+    timeout: 60
+    pool: 50
+
+  environments:
+    api:
+      target: 'http://localhost:5555'
+      plugins:
+        statsd:
+          host: localhost
+          port: 8125
+          prefix: "artillery-api"
+
+  phases:
+    - name: Inicio
+      duration: 60
+      arrivalRate: 10
+    - name: Pico
+      duration: 60
+      arrivalRate: 20
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "Pruebas exitosas de Exchange"
+    flow:
+      - get:
+          url: "/accounts"
+      - get:
+          url: "/rates"
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            baseAccountId: 1
+            counterAccountId: 2
+            baseAmount: 100
+            transactionType: "buy"
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "EUR"
+            counterCurrency: "USD"
+            baseAccountId: 3
+            counterAccountId: 4
+            baseAmount: 250
+            transactionType: "sell"
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "GBP"
+            counterCurrency: "BRL"
+            baseAccountId: 5
+            counterAccountId: 6
+            baseAmount: 150
+            transactionType: "buy"
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "JPY"
+            counterCurrency: "USD"
+            baseAccountId: 7
+            counterAccountId: 8
+            baseAmount: 10000
+            transactionType: "sell"
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "BTC"
+            counterCurrency: "USD"
+            baseAccountId: 9
+            counterAccountId: 10
+            baseAmount: 0.01
+            transactionType: "buy"
+      - put:
+          url: "/accounts/1/balance"
+          json:
+            balance: 900000
+      - put:
+          url: "/rates"
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            rate: 1050
+      - get:
+          url: "/log"

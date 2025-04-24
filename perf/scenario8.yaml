@@ -1,0 +1,115 @@
+config:
+  http:
+    timeout: 60
+    pool: 50
+
+  environments:
+    api:
+      target: 'http://localhost:5555'
+      plugins:
+        statsd:
+          host: localhost
+          port: 8125
+          prefix: "artillery-api"
+
+  pool: 50 
+
+  phases:
+    - name: Plain
+      duration: 90
+      arrivalRate: 15
+    - name: Stress
+      duration: 90
+      arrivalRate: 25
+
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "Stress Test + Extended Exchange Cases"
+    flow:
+      - get:
+          url: "/accounts"
+      - get:
+          url: "/rates"
+
+      # Transacciones válidas
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            baseAccountId: 1
+            counterAccountId: 2
+            baseAmount: 100
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "EUR"
+            counterCurrency: "USD"
+            baseAccountId: 3
+            counterAccountId: 1
+            baseAmount: 50
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "GBP"
+            counterCurrency: "CLP"
+            baseAccountId: 4
+            counterAccountId: 5
+            baseAmount: 70
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "JPY"
+            counterCurrency: "MXN"
+            baseAccountId: 6
+            counterAccountId: 7
+            baseAmount: 10000
+
+      # Casos erróneos
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "EUR"
+            counterCurrency: "BRL"
+            baseAccountId: 3
+            counterAccountId: 4
+            # Falta baseAmount
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            baseAccountId: 999
+            counterAccountId: 1000
+            baseAmount: 50
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "INVALID"
+            counterCurrency: "ARS"
+            baseAccountId: 1
+            counterAccountId: 2
+            baseAmount: 25
+
+      # Actualizaciones
+      - put:
+          url: "/accounts/1/balance"
+          json:
+            balance: 999999
+      - put:
+          url: "/rates"
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            rate: 1042.5
+      - put:
+          url: "/rates"
+          json:
+            baseCurrency: "EUR"
+            counterCurrency: "USD"
+            rate: 1.07
+      - get:
+          url: "/log"

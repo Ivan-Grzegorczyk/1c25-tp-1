@@ -1,4 +1,7 @@
 config:
+  http:
+    timeout: 60
+    pool: 50
   environments:
     api:
       target: 'http://localhost:5555'
@@ -8,16 +11,14 @@ config:
           port: 8125
           prefix: "artillery-api"
 
-  pool: 50 # All HTTP requests from all virtual users will be sent over the same connections
-
   phases:
-    - name: Ramp
-      duration: 30
-      arrivalRate: 1
-      rampTo: 5
-    - name: Plain
+    - name: Plain # Para eliminar el ruido de inicio
       duration: 60
-      arrivalRate: 5
+      arrivalRate: 20
+    - name: Ramp # Rampa de carga hasta los valores máximos utilizados
+      duration: 180
+      arrivalRate: 20
+      rampTo: 180
     
 
 scenarios:

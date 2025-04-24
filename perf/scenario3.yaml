@@ -1,0 +1,53 @@
+config:
+  target: "http://localhost:5555"
+  phases:
+    - duration: 90
+      arrivalRate: 15  # 15 usuarios/segundo
+    - duration: 90
+      arrivalRate: 25  # 25 usuarios/segundo
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "Stress Test + Error Simulation"
+    flow:
+      - get:
+          url: "/accounts"
+      - get:
+          url: "/rates"
+      - post:
+          url: "/exchange"
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            baseAccountId: 1
+            counterAccountId: 2
+            baseAmount: 100
+      - post:
+          url: "/exchange"     # Mal armado: falta baseAmount
+          json:
+            baseCurrency: "EUR"
+            counterCurrency: "BRL"
+            baseAccountId: 3
+            counterAccountId: 4
+      - post:
+          url: "/exchange"     # Error: id de cuenta inexistente
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            baseAccountId: 999
+            counterAccountId: 1000
+            baseAmount: 50
+      - put:
+          url: "/accounts/1/balance"
+          json:
+            balance: 800000
+      - put:
+          url: "/rates"
+          json:
+            baseCurrency: "USD"
+            counterCurrency: "ARS"
+            rate: 1000
+      - get:
+          url: "/log"

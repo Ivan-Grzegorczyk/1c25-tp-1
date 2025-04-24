@@ -99,12 +99,12 @@ app.post("/exchange", async (req, res) => {
 
   if (exchangeResult.ok) {
     res.status(200).json(exchangeResult);
-    
+
     // Enviar métricas a Graphite
     statsd.increment(`arvault.exchange.volume.${baseCurrency}`, baseAmount);  // Incrementa volumen moneda base
-    statsd.increment(`arvault.exchange.volume.${counterCurrency}`, exchangeRequest.counterAmount); // Incrementa volumen moneda contraria
-    statsd.decrement(`arvault.exchange.neto.${baseCurrency}`, baseAmount);
-    statsd.increment(`arvault.exchange.neto.${counterCurrency}`, exchangeRequest.counterAmount);
+    statsd.increment(`arvault.exchange.volume.${counterCurrency}`, exchangeResult.counterAmount); // Incrementa volumen moneda contraria
+    statsd.increment(`arvault.exchange.neto.${baseCurrency}`, baseAmount);
+    statsd.decrement(`arvault.exchange.neto.${counterCurrency}`, exchangeResult.counterAmount);
   } else {
     res.status(500).json(exchangeResult);
   }

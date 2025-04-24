@@ -1,9 +1,25 @@
 config:
-  target: "http://localhost:5555"
+  http:
+    timeout: 60
+    pool: 50
+
+  environments:
+    api:
+      target: 'http://localhost:5555'
+      plugins:
+        statsd:
+          host: localhost
+          port: 8125
+          prefix: "artillery-api"
+
+  pool: 50 
+
   phases:
-    - duration: 90
+    - name: Plain
+      duration: 90
       arrivalRate: 15  # 15 usuarios/segundo
-    - duration: 90
+    - name: Plain
+      duration: 90
       arrivalRate: 25  # 25 usuarios/segundo
   defaults:
     headers:

@@ -11,6 +11,7 @@ services:
       build: ./app
       links:
         - redis
+        - graphite
 
     nginx:
         image: nginx:1.27.4

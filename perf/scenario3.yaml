@@ -48,7 +48,7 @@ scenarios:
             baseAccountId: 3
             counterAccountId: 4
       - post:
-          url: "/exchange"     # Error: id de cuenta inexistente
+          url: "/exchange"
           json:
             baseCurrency: "USD"
             counterCurrency: "ARS"

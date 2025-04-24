@@ -81,8 +81,7 @@ app.post("/exchange", async (req, res) => {
     counterCurrency,
     baseAccountId,
     counterAccountId,
-    baseAmount,
-    transactionType,  // 'buy' o 'sell'
+    baseAmount
   } = req.body;
 
   if (
@@ -90,8 +89,7 @@ app.post("/exchange", async (req, res) => {
     !counterCurrency ||
     !baseAccountId ||
     !counterAccountId ||
-    !baseAmount ||
-    !transactionType
+    !baseAmount
   ) {
     return res.status(400).json({ error: "Malformed request" });
   }
@@ -101,20 +99,14 @@ app.post("/exchange", async (req, res) => {
 
   if (exchangeResult.ok) {
     res.status(200).json(exchangeResult);
+    
+    // Enviar métricas a Graphite
+    statsd.increment(`arvault.exchange.volume.${baseCurrency}`, baseAmount);  // Incrementa volumen moneda base
+    statsd.increment(`arvault.exchange.volume.${counterCurrency}`, exchangeRequest.counterAmount); // Incrementa volumen moneda contraria
+    statsd.decrement(`arvault.exchange.neto.${baseCurrency}`, baseAmount);
+    statsd.increment(`arvault.exchange.neto.${counterCurrency}`, exchangeRequest.counterAmount);
   } else {
     res.status(500).json(exchangeResult);
-  }
-
-  // Enviar m�tricas a Graphite
-  statsd.increment(`arvault.exchange.volume.${baseCurrency}`, baseAmount);  // Incrementa volumen moneda base
-  statsd.increment(`arvault.exchange.volume.${counterCurrency}`, baseAmount); // Incrementa volumen moneda contraria
-
-  if (transactionType === 'buy') {
-    statsd.increment(`arvault.exchange.neto.${baseCurrency}`, baseAmount);  // Compra: suma moneda base
-    statsd.decrement(`arvault.exchange.neto.${counterCurrency}`, baseAmount); // Compra: resta moneda contraria
-  } else if (transactionType === 'sell') {
-    statsd.decrement(`arvault.exchange.neto.${baseCurrency}`, baseAmount);  // Venta: resta moneda base
-    statsd.increment(`arvault.exchange.neto.${counterCurrency}`, baseAmount); // Venta: suma moneda contraria
   }
 
   const latency = Date.now() - start;  // Calcular el tiempo de respuesta
